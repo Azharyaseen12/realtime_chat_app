@@ -18,28 +18,31 @@
 
 </div>
 <script>
-$(document).ready(function(){
-
-setInterval(function(){
-    $.ajax({
-        type: 'GET',
-        url : "/getMessages/{{room_details.id}}/",
-        success: function(response){
-            console.log(response);
-            $("#display").empty();
-            for (var key in response.messages)
-            {
-                var temp="<b>"+response.messages[key].sender+"</b><p>"+response.messages[key].message+"</p><span class='time-left'>"+response.messages[key].timestamp+"</span></div>";
-                $("#display").append(temp);
-            }
-        },
-        error: function(response){
-            alert('An error occured')
-        }
-    });
-},1000);
-})
-</script>
+  $(document).ready(function(){
+  
+  setInterval(function(){
+      $.ajax({
+          type: 'GET',
+          url : "/getMessages/{{room_details.id}}/",
+          success: function(response){
+              console.log(response);
+              $("#display").empty();
+              for (var key in response.messages)
+              {
+                  var senderId = response.messages[key].sender_id;
+                  var senderName = senderId == '{{request.user.id}}' ? '{{room_details.username}}' : '{{request.user}}';
+                  var temp="<b>"+ senderName +"</b><p>"+response.messages[key].message+"</p><span class='time-left'>"+response.messages[key].timestamp+"</span></div><br>";
+                  $("#display").append(temp);
+              }
+          },
+          error: function(response){
+              alert('An error occurred')
+          }
+      });
+  },1000);
+  })
+  </script>
+  
 
 
 <div class="container">  

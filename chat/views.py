@@ -48,10 +48,9 @@ def checkview(request):
     room = request.POST['room_name']
     username = request.POST['username']
     print(room,username)
-    # user = User.objects.get(id = room)
+    user = User.objects.get(id = room)
     if User.objects.filter(id = room).exists():
-        return redirect('/'+room+'/?username='+username)
-    
+        return redirect('room',user.id)   
 
 def send(request):
     message = request.POST['message']
